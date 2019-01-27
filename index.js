@@ -48,12 +48,12 @@ function parse(relPath) {
 
     //must convert weights with respect to percentage
     return data.map(dataPoint => {
-        let injured = data.weight[0];
-        let killed = data.weight[1];
+        let injured = dataPoint.weight[0];
+        let killed = dataPoint.weight[1];
 
         let weight = 1 + (injured) + (2 * killed);
          
-        let scaledWeight = (weight / maxWeight) * 100;
+        let scaledWeight = (weight / maxWeight) * 100 - 20;
 
         return {
             latitude: dataPoint.latitude,
@@ -64,5 +64,11 @@ function parse(relPath) {
 }
 
 app.get("/data-mock", (req, res) => {
-
+    res.json(parse("./data/random_lat_lon.csv").sort((a, b) => a.weight - b.weight));
 });
+
+app.get("/data", (req, res) => {
+    res.json(parse("./data/texas.csv").sort((a, b) => a.weight - b.weight));
+});
+
+app.listen(8080);
