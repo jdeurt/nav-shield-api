@@ -18,12 +18,12 @@ function parse(relPath) {
     let text = fs.readFileSync(absolute, "utf8");
 
     let data = text.split("\n").map(row => {
-        let data = row.split(",");
+        let crimeData = row.split(",");
         
         return {
-            latitude: data[0],
-            longitude: data[1],
-            weight: [data[2], data[3]]
+            latitude: crimeData[0],
+            longitude: crimeData[1],
+            weight: [crimeData[2], crimeData[3]]
         };
     });
 
@@ -52,7 +52,8 @@ function parse(relPath) {
         let killed = dataPoint.weight[1];
 
         let weight = 1 + (injured) + (2 * killed);
-         
+        
+        //subtract 20 to reduce point intensity/opacity
         let scaledWeight = (weight / maxWeight) * 100 - 20;
 
         return {
